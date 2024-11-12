@@ -4,6 +4,7 @@ import itertools
 import json
 import paho.mqtt.publish as publish
 import time
+import os
 
 
 def simulate_valkyrie():
@@ -22,7 +23,9 @@ def simulate_valkyrie():
               ['load_cell/1', 'g'],
               ['load_cell/2', 'g']]
 
-    with open('data/Datafile_1.csv') as data_file:
+    source_dir = os.path.dirname(os.path.realpath(__file__))
+    filename = os.path.join(source_dir, 'data', 'Datafile_1.csv')
+    with open(filename) as data_file:
         reader = csv.reader(data_file)
         next(reader)
         sim_ts = datetime.now()
