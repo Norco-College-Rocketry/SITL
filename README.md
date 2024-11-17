@@ -16,7 +16,7 @@
 ## Utilities
 
 ### Mosquitto Docker Container
-Hosts a Mosquitto MQTT broker.
+Hosts a Mosquitto MQTT broker configured to serve websocket clients.
 
 Running: 
 ```

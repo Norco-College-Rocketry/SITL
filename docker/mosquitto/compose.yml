@@ -5,13 +5,12 @@ services:
     image: eclipse-mosquitto
     ports:
       - 1883:1883
-      - 9001:9001
+      - 8081:8081
     volumes:
-      - config:/mosquitto/config
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
       - data:/mosquitto/data
       - log:/mosquitto/log
 
 volumes:
-  config:
   data:
   log:
