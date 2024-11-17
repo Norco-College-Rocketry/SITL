@@ -1,5 +1,18 @@
 # Software-in-the-Loop
 
+## Setup
+1. Create Python virtual environment
+
+`$ python -m venv .venv`
+
+2. Activate virtual environment
+
+`$ source .venv/bin/activate`
+
+3. Install Python dependencies
+
+`$ pip install -r requirements.txt`
+
 ## Utilities
 
 ### Mosquitto Docker Container
@@ -17,8 +30,13 @@ Publishes a telemetry replay of data recorded during a static fire test of Valky
 
 Running:
 ``` bash
-$ python -m venv .venv
-$ source .venv/bin/activate
-$ pip install -r requirements.txt
 $ python sitl.py
+```
+
+### MQTT Echo
+Prints all MQTT messages from any topic to the terminal.
+
+Running:
+```bash
+$ python mqtt_echo.py
 ```
