@@ -13,15 +13,15 @@ def simulate_valkyrie():
         s = (datestr[:-4]+datestr[-3:])
         return datetime.strptime(s, "%H:%M:%S:%f")
 
-    topics = [['temperature/injector', 'F'],
-              ['temperature/vent', 'F'],
-              ['temperature/chamber', 'F'],
+    topics = [['telemetry/injector/temperature', 'F'],
+              ['telemetry/vent/temperature', 'F'],
+              ['telemetry/chamber/temperature', 'F'],
               ['', ''],
-              ['pressure/injector', 'psi'],
-              ['pressure/tank', 'psi'],
-              ['pressure/feed', 'psi'],
-              ['load_cell/1', 'g'],
-              ['load_cell/2', 'g']]
+              ['telemetry/injector/pressure', 'psi'],
+              ['telemetry/tank/pressure', 'psi'],
+              ['telemetry/feed/pressure', 'psi'],
+              ['telemetry/weight/1', 'kg'],
+              ['telemetry/weight/2', 'kg']]
 
     source_dir = os.path.dirname(os.path.realpath(__file__))
     filename = os.path.join(source_dir, 'data', 'Datafile_1.csv')
@@ -37,12 +37,16 @@ def simulate_valkyrie():
                 topic = topics[i][0]
                 units = topics[i][1]
                 if topic != '':
+                    value = float(row[i+1])
+                    if (topic[:-2] == 'telemetry/weight'):
+                        # Convert to kg
+                        value /= 1000
                     msgs.append({
                         'topic': topic,
                         'payload': json.dumps({
-                            'timestamp':sim_ts.timestamp(), 
-                            'units': units, 
-                            'value':row[i+1]
+                            'timestamp': sim_ts.timestamp()*1000, 
+                            'value': value,
+                            'unit': units 
                             })
                         })
 
