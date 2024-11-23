@@ -40,3 +40,4 @@ Running:
 ```bash
 $ python mqtt_echo.py
 ```
+### Sine Wave
