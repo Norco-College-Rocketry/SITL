@@ -1,5 +1,5 @@
 import csv
-from datetime import datetime
+from datetime import datetime, UTC
 import itertools
 import json
 import paho.mqtt.publish as publish
@@ -65,7 +65,7 @@ def simulate_valkyrie():
     with open(filename) as data_file:
         reader = csv.reader(data_file)
         next(reader)
-        sim_ts = datetime.now()
+        sim_ts = datetime.now(UTC)
         for (row, next_row) in itertools.pairwise(reader):
             ts = parse_date(row[0])
             print(sim_ts)
