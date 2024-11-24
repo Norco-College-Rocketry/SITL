@@ -7,12 +7,15 @@ import time
 import os
 import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
+from dotenv import load_dotenv
 
-bucket = 'olivine'
-org='a21246dfbe93707a'
+load_dotenv()
+
+url = os.getenv('INFLUX_URL')
+bucket = os.getenv('INFLUX_BUCKET')
+org = os.getenv('INFLUX_ORG')
+token = os.getenv('INFLUX_TOKEN')
 measurement = 'sitl'
-token = 'RIBXQN6m2HA2h7HpI7ey9nKEzCAFUpN1dTm1w0GijIyxVeNPHBzNLgTpiSZ5CFSGWhrtOKioM__LwkKw4mlTVg=='
-url = 'http://localhost:8086'
 
 client = influxdb_client.InfluxDBClient(
     url=url,
