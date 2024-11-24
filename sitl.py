@@ -5,13 +5,47 @@ import json
 import paho.mqtt.publish as publish
 import time
 import os
+import influxdb_client
+from influxdb_client.client.write_api import SYNCHRONOUS
 
+bucket = 'olivine'
+org='a21246dfbe93707a'
+measurement = 'sitl'
+token = 'RIBXQN6m2HA2h7HpI7ey9nKEzCAFUpN1dTm1w0GijIyxVeNPHBzNLgTpiSZ5CFSGWhrtOKioM__LwkKw4mlTVg=='
+url = 'http://localhost:8086'
+
+client = influxdb_client.InfluxDBClient(
+    url=url,
+    token=token,
+    org=org
+)
+write_api = client.write_api(write_options=SYNCHRONOUS)
 
 def simulate_valkyrie():
 
     def parse_date(datestr):
         s = (datestr[:-4]+datestr[-3:])
         return datetime.strptime(s, "%H:%M:%S:%f")
+
+    points = [influxdb_client.Point(measurement).tag('location', 'injector'),
+              influxdb_client.Point(measurement).tag('location', 'vent'),
+              influxdb_client.Point(measurement).tag('location', 'chamber'),
+              influxdb_client.Point(measurement),
+              influxdb_client.Point(measurement).tag('location', 'injector'),
+              influxdb_client.Point(measurement).tag('location', 'tank'),
+              influxdb_client.Point(measurement).tag('location', 'feed'),
+              influxdb_client.Point(measurement).tag('location', '1'),
+              influxdb_client.Point(measurement).tag('location', '2')]
+
+    fields = ['temperature', 
+              'temperature',
+              'temperature',
+              '',
+              'pressure',
+              'pressure',
+              'pressure',
+              'weight',
+              'weight']
 
     topics = [['telemetry/injector/temperature', 'F'],
               ['telemetry/vent/temperature', 'F'],
@@ -41,6 +75,12 @@ def simulate_valkyrie():
                     if (topic[:-2] == 'telemetry/weight'):
                         # Convert to kg
                         value /= 1000
+
+                    # Write to InfluxDB
+                    p = points[i].field(fields[i], value).time(sim_ts)
+                    write_api.write(bucket=bucket, org=org, record=p)
+
+                    # Create MQTT message
                     msgs.append({
                         'topic': topic,
                         'payload': json.dumps({
