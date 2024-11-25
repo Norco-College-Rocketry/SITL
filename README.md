@@ -13,6 +13,17 @@
 
 `$ pip install -r requirements.txt`
 
+### InfluxDB
+InfluxDB settings are retrieved from system environment variables. It may be convenient to create a '.env' file with the following keys:
+```
+INFLUX_TOKEN=
+INFLUX_URL=
+INFLUX_ORG=
+INFLUX_BUCKET=
+```
+
+Data is stored in the 'sitl' measurement.
+
 ## Utilities
 
 ### Mosquitto Docker Container
@@ -40,4 +51,6 @@ Running:
 ```bash
 $ python mqtt_echo.py
 ```
+
 ### Sine Wave
+
