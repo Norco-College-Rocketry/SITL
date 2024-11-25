@@ -11,6 +11,21 @@ services:
       - data:/mosquitto/data
       - log:/mosquitto/log
 
+  db:
+    image: influxdb:latest
+    ports:
+      - 8086:8086
+    volumes:
+      - db_data:/var/lib/influxdb2
+      - db_config:/etc/influxdb2
+    environment:
+      DOCKER_INFLUXDB_INIT_USERNAME: root
+      DOCKER_INFLUXDB_INIT_PASSWORD: norco
+      DOCKER_INFLUXDB_INIT_ORG: norco-college-rocketry
+      DOCKER_INFLUXDB_INIT_BUCKET: olivine
+
 volumes:
   data:
   log:
+  db_data:
+  db_config:
