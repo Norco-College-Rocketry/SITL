@@ -31,7 +31,7 @@ Hosts a Mosquitto MQTT broker configured to serve websocket clients.
 
 Running: 
 ```
-$ cd docker/mosquitto
+$ cd docker
 $ sudo docker compose up -d
 $ cd ../../
 ```
